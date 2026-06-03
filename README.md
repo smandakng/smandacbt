@@ -1,2 +1,0 @@
-# smandacbt
-Sistem Ujian Online
