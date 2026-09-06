@@ -1,0 +1,103 @@
+.schedule-class-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: flex-start;
+}
+
+.schedule-class-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  padding-right: 0.25rem;
+}
+
+.schedule-class-label span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+#view-admin-dashboard table tbody td:nth-child(3) {
+  text-align: left !important;
+}
+#view-admin-dashboard table tbody td:nth-child(3) * {
+  text-align: left !important;
+}
+
+#banksoal-tab-packets table tbody td:nth-child(2) {
+  text-align: left !important;
+}
+#banksoal-tab-packets table tbody td:nth-child(2) * {
+  text-align: left !important;
+}
+
+#schedules-table-body td:nth-child(3) { text-align: left !important; }
+
+#results-table tbody td:nth-child(4) { text-align: left !important; }
+
+.dashboard-session-label-short { display: none; }
+.dashboard-session-label-full { display: inline; }
+
+@media (max-width: 639px) {
+  .dashboard-session-label-full { display: none; }
+  .dashboard-session-label-short { display: inline; }
+}
+
+#result-item-analysis-modal .item-analysis-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: clamp(0.75rem, 2.5vmin, 1rem) clamp(1rem, 3vmin, 1.5rem);
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.item-analysis-status-benar {
+  color: #16a34a !important;
+  font-weight: 800;
+}
+
+.item-analysis-status-salah {
+  color: #dc2626 !important;
+  font-weight: 800;
+}
+
+.item-analysis-status-kosong {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.dark .item-analysis-status-kosong {
+  color: #94a3b8;
+}
+
+.manual-contenteditable {
+  font-weight: 400;
+}
+
+.manual-contenteditable b,
+.manual-contenteditable strong {
+  font-weight: 700;
+}
+
+.manual-contenteditable p,
+.manual-contenteditable div {
+  margin: 0;
+  padding: 0;
+}
+
+.manual-contenteditable p:empty,
+.manual-contenteditable div:empty {
+  display: none;
+}
+
+.settings-mobile-tabs {
+  display: none;
+}
+
+@media (orientation: portrait) and (max-width: 1024px) {
+  .settings-mobile-tabs {
+    display: flex !important;
+  }
+}
