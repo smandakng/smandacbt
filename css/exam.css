@@ -25,7 +25,6 @@ body.exam-mode {
   overflow: hidden;
   min-height: 0 !important;
   height: 100dvh;
-  height: 100%;
   background-color: #FFFFFF;
 }
 
@@ -1362,16 +1361,4 @@ body.student-admin-alert-open {
 
 .option-text {
   text-align: justify !important;
-}
-
-@media (orientation: portrait) and (max-width: 639px) {
-  #question-grid-mobile {
-    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-    gap: 0.35rem !important;
-  }
-  #question-grid-mobile button {
-    font-size: 0.65rem !important;
-    padding: 0.1rem !important;
-    border-radius: 0.375rem !important;
-  }
 }
