@@ -115,14 +115,6 @@ function renderDesktopMapGrid() {
       btn.className = classes.trim();
       btn.innerText = i;
 
-      if (isAnswered && !isFlagged) {
-        const badge = document.createElement('span');
-        const badgeSizeClass = isMobile ? 'w-3.5 h-3.5 text-[8px] -bottom-0.5 -right-0.5' : 'w-4 h-4 text-[9px] -bottom-1 -right-1';
-        badge.className = `absolute bg-white dark:bg-slate-800 rounded-full text-primary dark:text-blue-400 flex items-center justify-center font-bold border border-primary dark:border-blue-500 shadow-sm ${badgeSizeClass}`;
-        badge.innerText = EXAM_STATE.answers[q.id];
-        btn.appendChild(badge);
-      }
-
       container.appendChild(btn);
     });
   };
