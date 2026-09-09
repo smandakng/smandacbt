@@ -4,16 +4,14 @@ function updateExamProgressUI() {
   let greenCount = 0;
   let raguCount = 0;
   let belumCount = 0;
+
   questions.forEach(q => {
-    const answered = EXAM_STATE.answers[q.id] !== undefined;
-    const flagged = !!EXAM_STATE.doubts[q.id];
-    if (!answered) belumCount++;
-    else if (flagged) raguCount++;
+    if (EXAM_STATE.answers[q.id] === undefined) belumCount++;
+    else if (EXAM_STATE.doubts[q.id]) raguCount++;
     else greenCount++;
   });
-  const totalAnswered = questions.filter(
-    (q) => EXAM_STATE.answers[q.id] !== undefined
-  ).length;
+
+  const totalAnswered = greenCount + raguCount;
   const isReady = isExamReadyToFinish();
 
   const totalCountEl = document.getElementById('exam-total-count');
@@ -36,24 +34,19 @@ function updateExamProgressUI() {
 
   const modalText = document.getElementById('modal-summary-text');
   if (modalText) {
-    if (raguCount === 0) {
-      modalText.innerHTML = `Anda telah mengerjakan <strong>seluruh soal</strong>. Yakin ingin mengakhiri ujian dan menyimpan jawaban sekarang?`;
-    } else {
-      modalText.innerHTML = `Semua soal sudah dijawab, tetapi masih ada <strong class="text-accent">${raguCount} soal</strong> bertanda ragu-ragu. Yakin ingin mengakhiri ujian sekarang?`;
-    }
+    modalText.innerHTML = raguCount === 0
+      ? `Anda telah mengerjakan <strong>seluruh soal</strong>. Yakin ingin mengakhiri ujian dan menyimpan jawaban sekarang?`
+      : `Semua soal sudah dijawab, tetapi masih ada <strong class="text-accent">${raguCount} soal</strong> bertanda ragu-ragu. Yakin ingin mengakhiri ujian sekarang?`;
   }
 
   const pb = document.getElementById('btn-prev-question');
+  if (pb) pb.disabled = (EXAM_STATE.currentIndex === 0 || t === 0);
+
   const btnNext = document.getElementById('btn-next-question');
   const txtNextMobile = document.getElementById('txt-next-mobile');
   const txtNextDesktop = document.getElementById('txt-next-desktop');
   const iconNextArrow = document.getElementById('icon-next-arrow');
   const iconNextCheck = document.getElementById('icon-next-check');
-
-  if (pb) {
-    if (EXAM_STATE.currentIndex === 0 || t === 0) pb.disabled = true;
-    else pb.disabled = false;
-  }
 
   if (btnNext && txtNextMobile && txtNextDesktop && iconNextArrow && iconNextCheck) {
     if (isReady) {
@@ -73,15 +66,13 @@ function updateExamProgressUI() {
 }
 
 function renderDesktopMapGrid() {
+  const questions = Array.isArray(EXAM_STATE.scrambledQuestions) ? EXAM_STATE.scrambledQuestions : [];
   const renderGridItems = (containerId) => {
     const container = document.getElementById(containerId);
     if (!container) return;
     container.innerHTML = '';
     const isMobile = containerId === 'question-grid-mobile';
-
-    const questions = Array.isArray(EXAM_STATE.scrambledQuestions) ? EXAM_STATE.scrambledQuestions : [];
     questions.forEach((q, idx) => {
-      const i = idx + 1;
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.onclick = async () => {
@@ -94,31 +85,23 @@ function renderDesktopMapGrid() {
         renderExamQuestion();
         toggleMobileSheet(false);
       };
-
-      let classes = 'relative aspect-square flex items-center justify-center rounded-lg font-bold border transition-all active:scale-90 active:translate-y-[1px] duration-100 ';
+      let classes = 'aspect-square flex items-center justify-center rounded-lg font-bold border transition-all active:scale-90 active:translate-y-[1px] duration-100 ';
       if (idx === EXAM_STATE.currentIndex) {
         classes += 'ring-2 ring-primary dark:ring-blue-500 ring-offset-2 dark:ring-offset-slate-800 ';
       }
-
-      const isAnswered = EXAM_STATE.answers[q.id] !== undefined;
-      const isFlagged = !!EXAM_STATE.doubts[q.id];
-
-      if (isFlagged) {
+      if (EXAM_STATE.doubts[q.id]) {
         classes += 'bg-accent text-white border-accent hover:bg-amber-600';
-      } else if (isAnswered) {
+      } else if (EXAM_STATE.answers[q.id] !== undefined) {
         classes += 'bg-primary dark:bg-blue-600 text-white border-primary dark:border-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700';
       } else {
         classes += 'bg-white/10 text-slate-200 border-white/15 hover:bg-white/20';
       }
-
-      classes += isMobile ? ' p-1 text-[11px] sm:text-xs ' : ' text-sm ';
+      classes += isMobile ? ' p-1 text-[11px] sm:text-xs' : ' text-sm';
       btn.className = classes.trim();
-      btn.innerText = i;
-
+      btn.innerText = idx + 1;
       container.appendChild(btn);
     });
   };
-
   renderGridItems('question-grid-desktop');
   renderGridItems('question-grid-mobile');
 }
